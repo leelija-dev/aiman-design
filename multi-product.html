@@ -34,7 +34,213 @@
     />
     <link rel="stylesheet" href="./assets/css/main.css" />
   </head>
-  <body class="bg-gray-50">
+  <body class="bg-gray-50 relative">
+    <!-- Top Offer Bar -->
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-[20002]">
+      <!-- Top Bar: Special Offer + Product Title (hidden on small screens for product title) -->
+      <div
+        class="text-sm text-gray-600 px-6 py-2 flex smx:flex-nowrap flex-wrap smx:justify-between justify-center items-center border-b"
+      >
+        <p>
+          Special offer get <span class="font-semibold">25% off</span>
+          <a href="#" class="underline ml-1">T&amp;C</a>
+        </p>
+        <p class="hidden md:inline-block text-2xl font-semibold tracking-wide">
+          Aiman
+        </p>
+        <p class="text-gray-700 ">Womens Denim Jacket (Blue)</p>
+      </div>
+
+      <!-- Main Header -->
+      <div class="px-6 py-4 flex items-center justify-between gap-6">
+        <!-- Left: Logo + Desktop Nav -->
+        <div class="lg:flex hidden items-center gap-8 flex-1">
+          <!-- Logo -->
+          <div class="flex items-center gap-2 ">
+            <div class="w-8 h-8 bg-blue-700 rounded-sm "></div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <nav
+            class="hidden lg:flex items-center gap-6 text-gray-700 font-medium"
+          >
+            <a href="#" class="hover:text-black">Salwar Kameez</a>
+            <a href="#" class="hover:text-black">Lehengas</a>
+            <a href="#" class="hover:text-black">Bridal</a>
+            <a href="#" class="hover:text-black">Wedding</a>
+          </nav>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="lg:hidden text-gray-700 hover:text-black"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-4">
+          <!-- Search (visible on sm and up) -->
+          <div class="relative hidden sm:block">
+            <input
+              type="text"
+              placeholder="Search here"
+              class="pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none w-56"
+            />
+            <i
+              class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+            ></i>
+          </div>
+
+          <!-- Mobile Search Icon -->
+          <button class="sm:hidden text-gray-700 hover:text-black">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+          </button>
+
+          <!-- Icons -->
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </button>
+
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+          </button>
+
+          <!-- Profile with Dropdown -->
+          <div class="relative">
+            <button
+              id="profile-btn"
+              class="flex items-center gap-2 text-gray-700 hover:text-black"
+            >
+              <img
+                src="https://i.pravatar.cc/32"
+                alt="User"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <span class="hidden sm:block text-sm">Anne Doe</span>
+              <i class="fa-solid fa-chevron-down text-xs hidden sm:block"></i>
+            </button>
+
+            <!-- Account Dropdown -->
+            <div
+              id="account-dropdown"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >My Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Orders</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Wishlist</a
+              >
+              <hr class="my-1" />
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div
+      id="mobile-sidebar"
+      class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-[20003] lg:hidden"
+    >
+      <div class="flex items-center justify-between p-6 border-b">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          <span class="text-xl font-semibold">Aiman</span>
+        </div>
+        <button id="close-sidebar-btn" class="text-gray-700 hover:text-black">
+          <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Search -->
+      <div class="p-6 border-b">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search here"
+            class="w-full pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none"
+          />
+          <i
+            class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <nav class="p-6">
+        <ul class="space-y-4 text-gray-700 font-medium">
+          <li><a href="#" class="block hover:text-black">Salwar Kameez</a></li>
+          <li><a href="#" class="block hover:text-black">Lehengas</a></li>
+          <li><a href="#" class="block hover:text-black">Bridal</a></li>
+          <li><a href="#" class="block hover:text-black">Wedding</a></li>
+        </ul>
+      </nav>
+
+     
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-[20002] lg:hidden"
+    ></div>
+
+    <script>
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const closeSidebarBtn = document.getElementById("close-sidebar-btn");
+      const sidebar = document.getElementById("mobile-sidebar");
+      const overlay = document.getElementById("sidebar-overlay");
+
+      mobileMenuBtn.addEventListener("click", () => {
+        sidebar.classList.remove("-translate-x-full");
+        overlay.classList.remove("hidden");
+      });
+
+      closeSidebarBtn.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+      });
+
+      overlay.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+        overlay.classList.add("hidden");
+      });
+
+      // Account dropdown toggle
+      const profileBtn = document.getElementById("profile-btn");
+      const dropdown = document.getElementById("account-dropdown");
+
+      profileBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", () => {
+        dropdown.classList.add("hidden");
+      });
+    </script>
+
     <section class="px-4 lg:py-12 py-6">
       <div class="container mx-auto">
         <div
@@ -257,7 +463,7 @@
         <div class="flex flex-row gap-3 relative">
           <div
             id="filter-sidebar"
-            class="lgg:sticky fixed lgg:top-0 lgg:left-0 top-0 left-0 lgg:max-w-[300px] max-w-[260px] lgg:h-fit lgg:max-h-max max-h-screen w-full bg-white rounded-xl shadow-md py-5 px-2 z-[100] transition-all duration-300 ease-in-out"
+            class="lgg:sticky fixed lgg:top-0 lgg:left-0 top-0 left-0 lgg:max-w-[300px] max-w-[260px] lgg:h-fit lgg:max-h-max max-h-screen w-full bg-white rounded-xl shadow-md py-5 px-2 z-[20003] transition-all duration-300 ease-in-out"
           >
             <div class="space-y-6 h-full overflow-auto px-2">
               <!-- Header -->
@@ -1339,7 +1545,7 @@
     </section>
     <div
       id="filter-overlay"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[20002] lg:hidden hidden"
     ></div>
 
     <footer class="bg-[#FBEDEC]">
@@ -1352,11 +1558,11 @@
             <div class="flex-1">
               <h2 class="text-xl md:text-2xl font-medium text-gray-800 mb-4">
                 Subscribe to our newsletter and get
-                <br class="hidden sm:block" />
+                <br class="hidden lg:block" />
                 updates on new arrival
               </h2>
 
-            <form action="" class="md:max-w-md">
+              <form action="" class="lg:max-w-md">
                 <div
                   class="flex bg-[#FBEDEC] border xxs:py-1 xxs:px-1 py-2 px-4 border-[#D26A6A] xxs:rounded-full rounded-xl overflow-hidden xxs:flex-row flex-col justify-between"
                 >
