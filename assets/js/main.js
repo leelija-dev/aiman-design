@@ -124,3 +124,38 @@ $(document).ready(function () {
     resizeTimer = setTimeout(initCarousels, 300);
   });
 });
+
+// Mobile menu toggle
+const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+const closeSidebarBtn = document.getElementById("close-sidebar-btn");
+const sidebar = document.getElementById("mobile-sidebar");
+const overlay = document.getElementById("sidebar-overlay");
+
+mobileMenuBtn.addEventListener("click", () => {
+  sidebar.classList.remove("-translate-x-full");
+  overlay.classList.remove("hidden");
+});
+
+closeSidebarBtn.addEventListener("click", () => {
+  sidebar.classList.add("-translate-x-full");
+  overlay.classList.add("hidden");
+});
+
+overlay.addEventListener("click", () => {
+  sidebar.classList.add("-translate-x-full");
+  overlay.classList.add("hidden");
+});
+
+// Account dropdown toggle
+const profileBtn = document.getElementById("profile-btn");
+const dropdown = document.getElementById("account-dropdown");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.classList.toggle("hidden");
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", () => {
+  dropdown.classList.add("hidden");
+});
