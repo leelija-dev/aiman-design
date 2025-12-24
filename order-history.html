@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Product Gallery - Hover Pan Zoom</title>
+
+    <link href="./output.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Owl Carousel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .fashion-gradient {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+        }
+        .fashion-gradient-light {
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%);
+        }
+        .fashion-gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-item.active {
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%);
+            border-right: 3px solid #a855f7;
+            color: #7c3aed;
+        }
+        .sidebar-item:hover:not(.active) {
+            background-color: #f8fafc;
+        }
+        .order-status-processing {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        .order-status-shipped {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        .order-status-delivered {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+        .order-status-cancelled {
+            background-color: #fecaca;
+            color: #dc2626;
+        }
+        .order-status-returned {
+            background-color: #fed7aa;
+            color: #ea580c;
+        }
+        .tab-active {
+            border-bottom: 2px solid #a855f7;
+            color: #7c3aed;
+            font-weight: 600;
+        }
+        .order-card {
+            transition: all 0.3s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .filter-active {
+            background-color: #7c3aed;
+            color: white;
+        }
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+    </style>
+  </head>
+  <body class="bg-gray-50 relative">
+    <!-- Top Offer Bar -->
+
+    <!-- Main Header -->
+    <header
+      id="nav-wrapper"
+      class="bg-white shadow-sm sticky top-0 lg:z-[20004] z-[20000] px-3"
+    >
+      <!-- Top Bar: Special Offer + Product Title (hidden on small screens for product title) -->
+      <div class="text-sm text-gray-600 px-6 py-2 border-b">
+        <div
+          class="container mx-auto flex smx:flex-nowrap flex-wrap smx:justify-between justify-center items-center"
+        >
+          <p>
+            Special offer get <span class="font-semibold">25% off</span>
+            <a href="#" class="underline ml-1">T&amp;C</a>
+          </p>
+          <p
+            class="hidden md:inline-block text-2xl font-semibold tracking-wide"
+          >
+            Aiman
+          </p>
+          <p class="text-gray-700">Womens Denim Jacket (Blue)</p>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div
+        class="py-4 flex items-center justify-between gap-6 container mx-auto"
+      >
+        <!-- Left: Logo + Desktop Nav -->
+        <div class="lgg:flex hidden items-center gap-8 flex-1">
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <nav
+            class="hidden lgg:flex items-center gap-6 text-gray-700 font-medium"
+          >
+            <a href="#" class="hover:text-black">Salwar Kameez</a>
+            <a href="#" class="hover:text-black">Lehengas</a>
+            <a href="#" class="hover:text-black">Bridal</a>
+            <a href="#" class="hover:text-black">Wedding</a>
+          </nav>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="lgg:hidden text-gray-700 hover:text-black"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-4">
+          <!-- Search (visible on sm and up) -->
+          <div class="relative hidden sm:block">
+            <input
+              type="text"
+              placeholder="Search here"
+              class="pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none w-56"
+            />
+            <i
+              class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+            ></i>
+          </div>
+
+          <!-- Mobile Search Icon -->
+          <button class="sm:hidden text-gray-700 hover:text-black">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+          </button>
+
+          <!-- Icons -->
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </button>
+
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+          </button>
+
+          <!-- Profile with Dropdown -->
+          <div class="relative">
+            <button
+              id="profile-btn"
+              class="flex items-center gap-2 text-gray-700 hover:text-black"
+            >
+              <img
+                src="https://i.pravatar.cc/32"
+                alt="User"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <span class="hidden sm:block text-sm">Anne Doe</span>
+              <i class="fa-solid fa-chevron-down text-xs hidden sm:block"></i>
+            </button>
+
+            <!-- Account Dropdown -->
+            <div
+              id="account-dropdown"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >My Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Orders</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Wishlist</a
+              >
+              <hr class="my-1" />
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div
+      id="mobile-sidebar"
+      class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-[20005] lg:hidden"
+    >
+      <div class="flex items-center justify-between p-6 border-b">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          <span class="text-xl font-semibold">Aiman</span>
+        </div>
+        <button id="close-sidebar-btn" class="text-gray-700 hover:text-black">
+          <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Search -->
+      <div class="p-6 border-b">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search here"
+            class="w-full pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none"
+          />
+          <i
+            class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <nav class="p-6">
+        <ul class="space-y-4 text-gray-700 font-medium">
+          <li><a href="#" class="block hover:text-black">Salwar Kameez</a></li>
+          <li><a href="#" class="block hover:text-black">Lehengas</a></li>
+          <li><a href="#" class="block hover:text-black">Bridal</a></li>
+          <li><a href="#" class="block hover:text-black">Wedding</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-[20004] lg:hidden"
+    ></div>
+
+    <section class="w-full px-4 lgg:py-12 py-6">
+      <div class="container mx-auto">
+         <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Navigation -->
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-2xl shadow-sm p-6 sticky top-24">
+                    <!-- User Profile Summary -->
+                    <div class="text-center mb-8">
+                        <div class="relative inline-block mb-4">
+                            <div class="w-20 h-20 rounded-full fashion-gradient flex items-center justify-center text-white text-xl font-bold mx-auto">
+                                AJ
+                            </div>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-900">Alex Johnson</h2>
+                        <p class="text-gray-600 text-sm">Premium Member</p>
+                    </div>
+
+                    <!-- Navigation Menu -->
+                    <nav class="space-y-2">
+                        <a href="profile.html" class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-user w-5 text-center"></i>
+                            <span>Profile Information</span>
+                        </a>
+                        <a href="orders.html" class="sidebar-item active flex items-center gap-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-shopping-bag w-5 text-center"></i>
+                            <span>Order History</span>
+                            <span class="ml-auto bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">8</span>
+                        </a>
+                        <a href="wishlist.html" class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-heart w-5 text-center"></i>
+                            <span>Wishlist</span>
+                            <span class="ml-auto bg-purple-100 text-purple-600 text-xs px-2 py-1 rounded-full">12</span>
+                        </a>
+                        <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-map-marker-alt w-5 text-center"></i>
+                            <span>Addresses</span>
+                        </a>
+                        <a href="#" class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-credit-card w-5 text-center"></i>
+                            <span>Payment Methods</span>
+                        </a>
+                    </nav>
+
+                    <!-- Order Stats -->
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h3 class="font-medium text-gray-900 mb-4">Order Summary</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Total Orders</span>
+                                <span class="font-medium">18</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">This Month</span>
+                                <span class="font-medium">3</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Pending</span>
+                                <span class="font-medium text-amber-600">2</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Delivered</span>
+                                <span class="font-medium text-green-600">14</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:w-3/4">
+                <!-- Page Header -->
+                <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">Order History</h1>
+                            <p class="text-gray-600 mt-1">Track and manage all your StyleHub orders in one place</p>
+                        </div>
+                        <div class="mt-4 sm:mt-0 flex gap-3">
+                            <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition duration-200 text-sm font-medium">
+                                <i class="fas fa-download mr-2"></i>Export Orders
+                            </button>
+                            <button class="px-4 py-2 fashion-gradient text-white rounded-xl hover:shadow-lg transition duration-200 text-sm font-medium">
+                                <i class="fas fa-plus mr-2"></i>Start Return
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters and Search -->
+                <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+                    <div class="flex flex-col md:flex-row gap-4 justify-between">
+                        <div class="flex-1">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-search text-gray-400"></i>
+                                </div>
+                                <input type="text" placeholder="Search orders by product or order ID..." 
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <select class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                                <option>All Time</option>
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                                <option>Last Year</option>
+                            </select>
+                            <select class="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition">
+                                <option>All Status</option>
+                                <option>Processing</option>
+                                <option>Shipped</option>
+                                <option>Delivered</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Quick Filter Tabs -->
+                    <div class="flex flex-wrap gap-2 mt-4">
+                        <button class="filter-active px-4 py-2 rounded-xl text-sm font-medium transition">All Orders</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 text-sm font-medium transition">To Ship</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 text-sm font-medium transition">To Receive</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 text-sm font-medium transition">Completed</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 text-sm font-medium transition">Cancelled</button>
+                    </div>
+                </div>
+
+                <!-- Orders List -->
+                <div class="space-y-6">
+                    <!-- Current/Processing Orders -->
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 mb-4">Current Orders</h2>
+                        
+                        <div class="order-card bg-white rounded-2xl shadow-sm p-6 mb-4">
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="font-bold text-gray-900">Order #SH-7924</h3>
+                                        <span class="order-status-processing px-3 py-1 rounded-full text-xs font-medium">
+                                            Processing
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">Placed on July 8, 2023 • 3 items • $187.50</p>
+                                </div>
+                                <div class="mt-3 lg:mt-0">
+                                    <button class="px-4 py-2 border border-purple-600 text-purple-600 rounded-xl hover:bg-purple-50 transition text-sm font-medium">
+                                        Track Order
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Order Progress -->
+                            <div class="mb-6">
+                                <div class="flex justify-between text-xs text-gray-600 mb-2">
+                                    <span>Order Placed</span>
+                                    <span>Processing</span>
+                                    <span>Shipped</span>
+                                    <span>Delivered</span>
+                                </div>
+                                <div class="progress-bar bg-gray-200">
+                                    <div class="progress-fill fashion-gradient" style="width: 33%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Order Items -->
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-xl">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-tshirt text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Premium Cotton T-Shirt</h4>
+                                        <p class="text-gray-600 text-sm">Size: M • Color: Navy Blue</p>
+                                        <p class="text-gray-600 text-sm">Quantity: 1</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-gray-900">$45.00</p>
+                                        <p class="text-green-600 text-sm">In Stock</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-xl">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-teal-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-shoe-prints text-blue-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Urban Sneakers</h4>
+                                        <p class="text-gray-600 text-sm">Size: 10 • Color: White</p>
+                                        <p class="text-gray-600 text-sm">Quantity: 1</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-gray-900">$89.50</p>
+                                        <p class="text-green-600 text-sm">In Stock</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Actions -->
+                            <div class="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gray-200">
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-times mr-2"></i>Cancel Order
+                                </button>
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-question-circle mr-2"></i>Get Help
+                                </button>
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-receipt mr-2"></i>View Invoice
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders -->
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 mb-4">Recent Orders</h2>
+                        
+                        <div class="order-card bg-white rounded-2xl shadow-sm p-6 mb-4">
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="font-bold text-gray-900">Order #SH-7889</h3>
+                                        <span class="order-status-delivered px-3 py-1 rounded-full text-xs font-medium">
+                                            Delivered
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">Placed on June 28, 2023 • 2 items • $124.99</p>
+                                </div>
+                                <div class="mt-3 lg:mt-0">
+                                    <button class="px-4 py-2 border border-purple-600 text-purple-600 rounded-xl hover:bg-purple-50 transition text-sm font-medium">
+                                        Order Details
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Order Items -->
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-xl">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-tshirt text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Organic Linen Shirt</h4>
+                                        <p class="text-gray-600 text-sm">Size: L • Color: Olive Green</p>
+                                        <p class="text-gray-600 text-sm">Quantity: 1</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-gray-900">$65.00</p>
+                                        <button class="text-purple-600 text-sm font-medium mt-1">Buy Again</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Actions -->
+                            <div class="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gray-200">
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-star mr-2"></i>Rate Products
+                                </button>
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-undo mr-2"></i>Return Items
+                                </button>
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-receipt mr-2"></i>View Invoice
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="order-card bg-white rounded-2xl shadow-sm p-6">
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-4">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="font-bold text-gray-900">Order #SH-7842</h3>
+                                        <span class="order-status-delivered px-3 py-1 rounded-full text-xs font-medium">
+                                            Delivered
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">Placed on June 12, 2023 • 4 items • $243.75</p>
+                                </div>
+                                <div class="mt-3 lg:mt-0">
+                                    <button class="px-4 py-2 border border-purple-600 text-purple-600 rounded-xl hover:bg-purple-50 transition text-sm font-medium">
+                                        Order Details
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Order Items -->
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-xl">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-tshirt text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-900">Summer Collection Bundle</h4>
+                                        <p class="text-gray-600 text-sm">3 T-shirts, 1 Short • Mixed Colors</p>
+                                        <p class="text-gray-600 text-sm">Quantity: 1 Bundle</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-gray-900">$148.99</p>
+                                        <button class="text-purple-600 text-sm font-medium mt-1">Buy Again</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Actions -->
+                            <div class="flex flex-wrap gap-3 mt-6 pt-6 border-t border-gray-200">
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-star mr-2"></i>Rate Products
+                                </button>
+                                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition text-sm font-medium">
+                                    <i class="fas fa-receipt mr-2"></i>View Invoice
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Older Orders -->
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-900 mb-4">Older Orders</h2>
+                        
+                        <div class="order-card bg-white rounded-2xl shadow-sm p-6">
+                            <div class="flex flex-col lg:flex-row lg:items-center justify-between">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h3 class="font-bold text-gray-900">Order #SH-7791</h3>
+                                        <span class="order-status-delivered px-3 py-1 rounded-full text-xs font-medium">
+                                            Delivered
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm">Placed on June 5, 2023 • 2 items • $89.50</p>
+                                </div>
+                                <div class="mt-3 lg:mt-0">
+                                    <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition text-sm font-medium">
+                                        View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-center items-center gap-2 mt-8">
+                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 transition">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-xl fashion-gradient text-white">1</button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 transition">2</button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 transition">3</button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 transition">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-[#FBEDEC]">
+      <div class="container mx-auto">
+        <div class="border-b border-[#E8C8C8]">
+          <div
+            class="px-4 py-12 flex flex-col lg:flex-row gap-10 lg:items-stretch justify-center"
+          >
+            <!-- Newsletter -->
+            <div class="flex-1">
+              <h2 class="text-xl md:text-2xl font-medium text-gray-800 mb-4">
+                Subscribe to our newsletter and get
+                <br class="hidden lg:block" />
+                updates on new arrival
+              </h2>
+
+              <form action="" class="lg:max-w-md">
+                <div
+                  class="flex bg-[#FBEDEC] border xxs:py-1 xxs:px-1 py-2 px-4 border-[#D26A6A] xxs:rounded-full rounded-xl overflow-hidden xxs:flex-row flex-col justify-between"
+                >
+                  <input
+                    type="text"
+                    class="w-full px-4 py-2 bg-transparent outline-none xxs:mb-0 mb-2"
+                    placeholder="Enter your email"
+                  />
+                  <button
+                    class="px-4 py-2 bg-[#D29A1E] xxs:rounded-full rounded-md text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Divider -->
+            <div
+              class="hidden lg:block w-[2px] bg-[#E8C8C8] rounded-full self-stretch"
+            ></div>
+            <div class="lg:hidden h-[2px] bg-[#E8C8C8] w-full"></div>
+
+            <!-- Instagram -->
+            <div class="flex-1 flex items-center justify-center lg:justify-end">
+              <div class="w-fit text-center lg:text-left">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">
+                  Follow us on Instagram
+                </h3>
+
+                <div
+                  class="flex flex-wrap lg:flex-nowrap gap-3 justify-center lg:justify-start max-w-sm"
+                >
+                  <img
+                    src="./assets/images/Home-image/pic-17.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-18.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-19.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-20.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="px-4 py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10"
+        >
+          <!-- Brand -->
+          <div class="md:col-span-1">
+            <h2 class="text-2xl font-bold text-[#8B1E2D]">Aiman</h2>
+            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+              We are a fashion brand that offers the best of contemporary,
+              ethnic Indian fashion, and fusion-wear styles.
+            </p>
+          </div>
+
+          <!-- Quick Link -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Quick Link</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Men</li>
+              <li>Women</li>
+              <li>Collection</li>
+              <li>Couples</li>
+              <li>Kids</li>
+            </ul>
+          </div>
+
+          <!-- Vastram -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Vastram</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>About Us</li>
+              <li>Contact us</li>
+              <li>Blog</li>
+              <li>Press</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+
+          <!-- Policies -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Policies</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Terms & Conditions</li>
+              <li>Shipping</li>
+              <li>Return</li>
+              <li>Payment Policy</li>
+            </ul>
+          </div>
+
+          <!-- Account -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">My Account</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Login</li>
+              <li>Shopping Bag</li>
+              <li>Wishlist</li>
+              <li>Order Tracking</li>
+              <li>Order History</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- <script src="./assets/js/multi-product.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+    
+  </body>
+</html>

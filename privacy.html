@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Product Gallery - Hover Pan Zoom</title>
+
+    <link href="./output.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Owl Carousel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+
+     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .fashion-gradient {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+        }
+        .fashion-gradient-light {
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%);
+        }
+        .fashion-gradient-text {
+            background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sidebar-item.active {
+            background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%);
+            border-right: 3px solid #a855f7;
+            color: #7c3aed;
+        }
+        .sidebar-item:hover:not(.active) {
+            background-color: #f8fafc;
+        }
+        .security-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .security-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .security-card.highlight {
+            border-color: #a855f7;
+            background: linear-gradient(135deg, #fdf4ff 0%, #faf5ff 100%);
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #a855f7;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .modal-content.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+            border-color: #a855f7;
+        }
+        .privacy-section {
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .privacy-section:hover {
+            border-left-color: #a855f7;
+            background-color: #faf5ff;
+        }
+    </style>
+  </head>
+  <body class="bg-gray-50 relative">
+    <!-- Top Offer Bar -->
+
+    <!-- Main Header -->
+    <header
+      id="nav-wrapper"
+      class="bg-white shadow-sm sticky top-0 lg:z-[20004] z-[20000] px-3"
+    >
+      <!-- Top Bar: Special Offer + Product Title (hidden on small screens for product title) -->
+      <div class="text-sm text-gray-600 px-6 py-2 border-b">
+        <div
+          class="container mx-auto flex smx:flex-nowrap flex-wrap smx:justify-between justify-center items-center"
+        >
+          <p>
+            Special offer get <span class="font-semibold">25% off</span>
+            <a href="#" class="underline ml-1">T&amp;C</a>
+          </p>
+          <p
+            class="hidden md:inline-block text-2xl font-semibold tracking-wide"
+          >
+            Aiman
+          </p>
+          <p class="text-gray-700">Womens Denim Jacket (Blue)</p>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div
+        class="py-4 flex items-center justify-between gap-6 container mx-auto"
+      >
+        <!-- Left: Logo + Desktop Nav -->
+        <div class="lgg:flex hidden items-center gap-8 flex-1">
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <nav
+            class="hidden lgg:flex items-center gap-6 text-gray-700 font-medium"
+          >
+            <a href="#" class="hover:text-black">Salwar Kameez</a>
+            <a href="#" class="hover:text-black">Lehengas</a>
+            <a href="#" class="hover:text-black">Bridal</a>
+            <a href="#" class="hover:text-black">Wedding</a>
+          </nav>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="lgg:hidden text-gray-700 hover:text-black"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-4">
+          <!-- Search (visible on sm and up) -->
+          <div class="relative hidden sm:block">
+            <input
+              type="text"
+              placeholder="Search here"
+              class="pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none w-56"
+            />
+            <i
+              class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+            ></i>
+          </div>
+
+          <!-- Mobile Search Icon -->
+          <button class="sm:hidden text-gray-700 hover:text-black">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+          </button>
+
+          <!-- Icons -->
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </button>
+
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+          </button>
+
+          <!-- Profile with Dropdown -->
+          <div class="relative">
+            <button
+              id="profile-btn"
+              class="flex items-center gap-2 text-gray-700 hover:text-black"
+            >
+              <img
+                src="https://i.pravatar.cc/32"
+                alt="User"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <span class="hidden sm:block text-sm">Anne Doe</span>
+              <i class="fa-solid fa-chevron-down text-xs hidden sm:block"></i>
+            </button>
+
+            <!-- Account Dropdown -->
+            <div
+              id="account-dropdown"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >My Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Orders</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Wishlist</a
+              >
+              <hr class="my-1" />
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div
+      id="mobile-sidebar"
+      class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-[20005] lg:hidden"
+    >
+      <div class="flex items-center justify-between p-6 border-b">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          <span class="text-xl font-semibold">Aiman</span>
+        </div>
+        <button id="close-sidebar-btn" class="text-gray-700 hover:text-black">
+          <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Search -->
+      <div class="p-6 border-b">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search here"
+            class="w-full pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none"
+          />
+          <i
+            class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <nav class="p-6">
+        <ul class="space-y-4 text-gray-700 font-medium">
+          <li><a href="#" class="block hover:text-black">Salwar Kameez</a></li>
+          <li><a href="#" class="block hover:text-black">Lehengas</a></li>
+          <li><a href="#" class="block hover:text-black">Bridal</a></li>
+          <li><a href="#" class="block hover:text-black">Wedding</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-[20004] lg:hidden"
+    ></div>
+
+    <section class="w-full px-4 lgg:py-12 py-6">
+      <div class="container mx-auto">
+        <div class="flex flex-col lg:flex-row gap-8">
+          <!-- Sidebar Navigation -->
+          <div class="lg:w-1/4">
+            <div class="bg-white rounded-2xl shadow-sm p-6 sticky top-24">
+              <!-- User Profile Summary -->
+              <div class="text-center mb-8">
+                <div class="relative inline-block mb-4">
+                  <div
+                    class="w-20 h-20 rounded-full fashion-gradient flex items-center justify-center text-white text-xl font-bold mx-auto"
+                  >
+                    AJ
+                  </div>
+                  <div
+                    class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center"
+                  >
+                    <i class="fas fa-check text-white text-xs"></i>
+                  </div>
+                </div>
+                <h2 class="text-lg font-bold text-gray-900">Alex Johnson</h2>
+                <p class="text-gray-600 text-sm">Premium Member</p>
+                <div class="mt-2">
+                  <span
+                    class="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium"
+                  >
+                    <i class="fas fa-shield-alt"></i>
+                    Account Protected
+                  </span>
+                </div>
+              </div>
+
+              <!-- Navigation Menu -->
+              <nav class="space-y-2">
+                <a
+                  href="profile.html"
+                  class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700"
+                >
+                  <i class="fas fa-user w-5 text-center"></i>
+                  <span>Profile Information</span>
+                </a>
+                <a
+                  href="orders.html"
+                  class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700"
+                >
+                  <i class="fas fa-shopping-bag w-5 text-center"></i>
+                  <span>Order History</span>
+                </a>
+                <a
+                  href="addresses.html"
+                  class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700"
+                >
+                  <i class="fas fa-map-marker-alt w-5 text-center"></i>
+                  <span>My Addresses</span>
+                </a>
+                <a
+                  href="privacy-security.html"
+                  class="sidebar-item active flex items-center gap-3 p-3 rounded-lg text-gray-700"
+                >
+                  <i class="fas fa-shield-alt w-5 text-center"></i>
+                  <span>Privacy & Security</span>
+                </a>
+                <a
+                  href="#"
+                  class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700"
+                >
+                  <i class="fas fa-bell w-5 text-center"></i>
+                  <span>Notifications</span>
+                </a>
+                <a
+                  href="#"
+                  class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-gray-700"
+                >
+                  <i class="fas fa-palette w-5 text-center"></i>
+                  <span>Style Preferences</span>
+                </a>
+              </nav>
+
+              <!-- Security Status -->
+              <div class="mt-8 pt-6 border-t border-gray-200">
+                <h3 class="font-medium text-gray-900 mb-4">Security Status</h3>
+                <div class="space-y-3">
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-600">Password Strength</span>
+                    <span class="font-medium text-green-600">Strong</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-600">2FA Enabled</span>
+                    <span class="font-medium text-green-600">Yes</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-600">Last Login</span>
+                    <span class="font-medium">2 hours ago</span>
+                  </div>
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-600">Devices</span>
+                    <span class="font-medium">3 Active</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Content -->
+          <div class="lg:w-3/4">
+            <!-- Page Header -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+              <div
+                class="flex flex-col sm:flex-row justify-between items-start sm:items-center"
+              >
+                <div>
+                  <h1 class="text-2xl font-bold text-gray-900">
+                    Privacy & Security
+                  </h1>
+                  <p class="text-gray-600 mt-1">
+                    Manage your account security and privacy preferences
+                  </p>
+                </div>
+                <div
+                  class="mt-4 sm:mt-0 flex items-center gap-2 text-sm text-green-600 bg-green-50 px-4 py-2 rounded-xl"
+                >
+                  <i class="fas fa-shield-alt"></i>
+                  <span>All security features active</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div
+                class="security-card highlight bg-white rounded-2xl shadow-sm p-6"
+              >
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center"
+                  >
+                    <i class="fas fa-lock text-green-600 text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900">Account Protection</h3>
+                    <p class="text-gray-600 text-sm">
+                      Enhanced security active
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="security-card bg-white rounded-2xl shadow-sm p-6">
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center"
+                  >
+                    <i class="fas fa-user-shield text-blue-600 text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900">Privacy Controls</h3>
+                    <p class="text-gray-600 text-sm">Manage your data</p>
+                  </div>
+                </div>
+              </div>
+              <div class="security-card bg-white rounded-2xl shadow-sm p-6">
+                <div class="flex items-center gap-4">
+                  <div
+                    class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center"
+                  >
+                    <i class="fas fa-history text-purple-600 text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-900">Login Activity</h3>
+                    <p class="text-gray-600 text-sm">3 active sessions</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-6">
+                Security Settings
+              </h2>
+
+              <div class="space-y-6">
+                <!-- Password Section -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">Password</h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Last changed 3 months ago
+                      </p>
+                    </div>
+                    <button
+                      id="changePasswordBtn"
+                      class="px-4 py-2 border border-purple-600 text-purple-600 rounded-xl hover:bg-purple-50 transition text-sm font-medium"
+                    >
+                      Change Password
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Two-Factor Authentication -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <div class="flex items-center gap-3 mb-2">
+                        <h3 class="font-semibold text-gray-900">
+                          Two-Factor Authentication
+                        </h3>
+                        <span
+                          class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium"
+                        >
+                          Enabled
+                        </span>
+                      </div>
+                      <p class="text-gray-600 text-sm">
+                        Add an extra layer of security to your account
+                      </p>
+                    </div>
+                    <div class="flex items-center gap-4">
+                      <label class="toggle-switch">
+                        <input type="checkbox" checked />
+                        <span class="toggle-slider"></span>
+                      </label>
+                      <button
+                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition text-sm font-medium"
+                      >
+                        Manage
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Login Alerts -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">Login Alerts</h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Get notified of new sign-ins
+                      </p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Trusted Devices -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">
+                        Trusted Devices
+                      </h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Manage devices that remember your login
+                      </p>
+                    </div>
+                    <button
+                      class="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition text-sm font-medium"
+                    >
+                      Manage Devices
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-6">
+                Privacy Settings
+              </h2>
+
+              <div class="space-y-6">
+                <!-- Data Collection -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">
+                        Personalized Recommendations
+                      </h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Use my data to provide better style recommendations
+                      </p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Marketing Emails -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">
+                        Marketing Communications
+                      </h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Receive emails about new collections and offers
+                      </p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" checked />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Data Sharing -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">
+                        Third-Party Data Sharing
+                      </h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Allow sharing of anonymized data with partners
+                      </p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Location Services -->
+                <div
+                  class="privacy-section p-4 rounded-xl border border-gray-200"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div class="flex-1">
+                      <h3 class="font-semibold text-gray-900">
+                        Location Services
+                      </h3>
+                      <p class="text-gray-600 text-sm mt-1">
+                        Use my location for store recommendations
+                      </p>
+                    </div>
+                    <label class="toggle-switch">
+                      <input type="checkbox" />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Data Management -->
+            <div class="bg-white rounded-2xl shadow-sm p-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-6">
+                Data Management
+              </h2>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 border border-gray-200 rounded-xl">
+                  <div class="flex items-center gap-4 mb-4">
+                    <div
+                      class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center"
+                    >
+                      <i class="fas fa-download text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">
+                        Download Your Data
+                      </h3>
+                      <p class="text-gray-600 text-sm">
+                        Get a copy of your StyleHub data
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    class="w-full py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition font-medium"
+                  >
+                    Request Data Export
+                  </button>
+                </div>
+
+                <div class="p-4 border border-gray-200 rounded-xl">
+                  <div class="flex items-center gap-4 mb-4">
+                    <div
+                      class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center"
+                    >
+                      <i class="fas fa-trash text-red-600 text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold text-gray-900">
+                        Delete Account
+                      </h3>
+                      <p class="text-gray-600 text-sm">
+                        Permanently delete your account and data
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    class="w-full py-2 border border-red-300 text-red-600 rounded-xl hover:bg-red-50 transition font-medium"
+                  >
+                    Delete My Account
+                  </button>
+                </div>
+              </div>
+
+              <!-- Activity History -->
+              <div class="mt-6 pt-6 border-t border-gray-200">
+                <h3 class="font-semibold text-gray-900 mb-4">
+                  Recent Security Activity
+                </h3>
+                <div class="space-y-3">
+                  <div
+                    class="flex items-center gap-4 p-3 bg-gray-50 rounded-xl"
+                  >
+                    <div
+                      class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
+                    >
+                      <i class="fas fa-lock text-green-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        Password changed
+                      </p>
+                      <p class="text-xs text-gray-600">
+                        2 hours ago • From New York, US
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center gap-4 p-3 bg-gray-50 rounded-xl"
+                  >
+                    <div
+                      class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+                    >
+                      <i class="fas fa-mobile text-blue-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        New device login
+                      </p>
+                      <p class="text-xs text-gray-600">
+                        1 day ago • iPhone 14 Pro
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center gap-4 p-3 bg-gray-50 rounded-xl"
+                  >
+                    <div
+                      class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"
+                    >
+                      <i class="fas fa-shield-alt text-purple-600 text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        2FA enabled
+                      </p>
+                      <p class="text-xs text-gray-600">
+                        1 week ago • Security settings updated
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add/Edit Address Modal -->
+    <div id="addressModal" class="fixed inset-0 z-[100000] hidden">
+      <div
+        class="modal-overlay absolute inset-0 flex items-center justify-center p-4"
+      >
+        <div
+          class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+        >
+          <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+              <h2 class="text-xl font-bold text-gray-900" id="modalTitle">
+                Add New Address
+              </h2>
+              <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times text-xl"></i>
+              </button>
+            </div>
+          </div>
+
+          <form id="addressForm" class="p-6 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Address Label</label
+                >
+                <select
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                >
+                  <option value="">Select Label</option>
+                  <option value="home">Home</option>
+                  <option value="work">Work</option>
+                  <option value="parents">Parents' House</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Custom Label</label
+                >
+                <input
+                  type="text"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                  placeholder="Enter custom label"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                  value="Alex"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                  value="Johnson"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Street Address</label
+              >
+              <input
+                type="text"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                placeholder="123 Main Street"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Apartment, Suite, Unit (Optional)</label
+              >
+              <input
+                type="text"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                placeholder="Apt 4B"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >City</label
+                >
+                <input
+                  type="text"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                  value="New York"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >State</label
+                >
+                <select
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                  required
+                >
+                  <option value="NY" selected>New York</option>
+                  <option value="CA">California</option>
+                  <option value="TX">Texas</option>
+                  <option value="FL">Florida</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >ZIP Code</label
+                >
+                <input
+                  type="text"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                  value="10001"
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Country</label
+              >
+              <select
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                required
+              >
+                <option value="US" selected>United States</option>
+                <option value="CA">Canada</option>
+                <option value="UK">United Kingdom</option>
+                <option value="AU">Australia</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Phone Number</label
+              >
+              <input
+                type="tel"
+                class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus"
+                value="+1 (555) 123-4567"
+                required
+              />
+            </div>
+
+            <div class="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="setDefault"
+                class="w-4 h-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+              />
+              <label
+                for="setDefault"
+                class="text-sm text-gray-700 cursor-pointer"
+              >
+                Set as default shipping address
+              </label>
+            </div>
+
+            <div class="flex gap-3 pt-4">
+              <button
+                type="button"
+                id="cancelBtn"
+                class="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="flex-1 py-3 fashion-gradient text-white rounded-xl hover:shadow-lg transition font-medium"
+              >
+                Save Address
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+     <!-- Change Password Modal -->
+    <div id="passwordModal" class="fixed inset-0 z-[100000] hidden">
+        <div class="modal-overlay absolute inset-0 flex items-center justify-center p-4">
+            <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-md">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-bold text-gray-900">Change Password</h2>
+                        <button id="closePasswordModal" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <form id="passwordForm" class="p-6 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus" required>
+                        <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters with numbers and symbols</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-xl input-focus" required>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="button" id="cancelPasswordBtn" class="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition font-medium">
+                            Cancel
+                        </button>
+                        <button type="submit" class="flex-1 py-3 fashion-gradient text-white rounded-xl hover:shadow-lg transition font-medium">
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-[#FBEDEC]">
+      <div class="container mx-auto">
+        <div class="border-b border-[#E8C8C8]">
+          <div
+            class="px-4 py-12 flex flex-col lg:flex-row gap-10 lg:items-stretch justify-center"
+          >
+            <!-- Newsletter -->
+            <div class="flex-1">
+              <h2 class="text-xl md:text-2xl font-medium text-gray-800 mb-4">
+                Subscribe to our newsletter and get
+                <br class="hidden lg:block" />
+                updates on new arrival
+              </h2>
+
+              <form action="" class="lg:max-w-md">
+                <div
+                  class="flex bg-[#FBEDEC] border xxs:py-1 xxs:px-1 py-2 px-4 border-[#D26A6A] xxs:rounded-full rounded-xl overflow-hidden xxs:flex-row flex-col justify-between"
+                >
+                  <input
+                    type="text"
+                    class="w-full px-4 py-2 bg-transparent outline-none xxs:mb-0 mb-2"
+                    placeholder="Enter your email"
+                  />
+                  <button
+                    class="px-4 py-2 bg-[#D29A1E] xxs:rounded-full rounded-md text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Divider -->
+            <div
+              class="hidden lg:block w-[2px] bg-[#E8C8C8] rounded-full self-stretch"
+            ></div>
+            <div class="lg:hidden h-[2px] bg-[#E8C8C8] w-full"></div>
+
+            <!-- Instagram -->
+            <div class="flex-1 flex items-center justify-center lg:justify-end">
+              <div class="w-fit text-center lg:text-left">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">
+                  Follow us on Instagram
+                </h3>
+
+                <div
+                  class="flex flex-wrap lg:flex-nowrap gap-3 justify-center lg:justify-start max-w-sm"
+                >
+                  <img
+                    src="./assets/images/Home-image/pic-17.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-18.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-19.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-20.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="px-4 py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10"
+        >
+          <!-- Brand -->
+          <div class="md:col-span-1">
+            <h2 class="text-2xl font-bold text-[#8B1E2D]">Aiman</h2>
+            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+              We are a fashion brand that offers the best of contemporary,
+              ethnic Indian fashion, and fusion-wear styles.
+            </p>
+          </div>
+
+          <!-- Quick Link -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Quick Link</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Men</li>
+              <li>Women</li>
+              <li>Collection</li>
+              <li>Couples</li>
+              <li>Kids</li>
+            </ul>
+          </div>
+
+          <!-- Vastram -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Vastram</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>About Us</li>
+              <li>Contact us</li>
+              <li>Blog</li>
+              <li>Press</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+
+          <!-- Policies -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Policies</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Terms & Conditions</li>
+              <li>Shipping</li>
+              <li>Return</li>
+              <li>Payment Policy</li>
+            </ul>
+          </div>
+
+          <!-- Account -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">My Account</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Login</li>
+              <li>Shopping Bag</li>
+              <li>Wishlist</li>
+              <li>Order Tracking</li>
+              <li>Order History</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- <script src="./assets/js/multi-product.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+      <script>
+        // Modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordModalContent = passwordModal.querySelector('.modal-content');
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const closePasswordModal = document.getElementById('closePasswordModal');
+            const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+            const passwordForm = document.getElementById('passwordForm');
+
+            // Toggle switch functionality
+            const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+            toggleSwitches.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const settingName = this.closest('.privacy-section').querySelector('h3').textContent;
+                    const action = this.checked ? 'enabled' : 'disabled';
+                    showNotification(`${settingName} ${action}`, 'success');
+                });
+            });
+
+            // Open password modal
+            function openPasswordModal() {
+                passwordModal.classList.remove('hidden');
+                setTimeout(() => {
+                    passwordModalContent.classList.add('active');
+                }, 10);
+            }
+
+            // Close password modal
+            function closePasswordModalFunc() {
+                passwordModalContent.classList.remove('active');
+                setTimeout(() => {
+                    passwordModal.classList.add('hidden');
+                }, 300);
+            }
+
+            // Event listeners
+            changePasswordBtn.addEventListener('click', openPasswordModal);
+            closePasswordModal.addEventListener('click', closePasswordModalFunc);
+            cancelPasswordBtn.addEventListener('click', closePasswordModalFunc);
+
+            // Close modal when clicking outside
+            passwordModal.addEventListener('click', function(e) {
+                if (e.target === passwordModal) {
+                    closePasswordModalFunc();
+                }
+            });
+
+            // Password form submission
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                closePasswordModalFunc();
+                showNotification('Password updated successfully!', 'success');
+            });
+
+            // Data export functionality
+            document.querySelector('button:contains("Request Data Export")').addEventListener('click', function() {
+                showNotification('Your data export request has been submitted. You will receive an email when it\'s ready.', 'info');
+            });
+
+            // Account deletion warning
+            document.querySelector('button:contains("Delete My Account")').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently lost.')) {
+                    showNotification('Account deletion process initiated. Please check your email for confirmation.', 'info');
+                }
+            });
+
+            // Manage devices button
+            document.querySelector('button:contains("Manage Devices")').addEventListener('click', function() {
+                showNotification('Opening device management settings...', 'info');
+            });
+
+            // 2FA manage button
+            document.querySelector('button:contains("Manage")').addEventListener('click', function() {
+                showNotification('Opening two-factor authentication settings...', 'info');
+            });
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.custom-notification');
+            existingNotifications.forEach(notification => {
+                document.body.removeChild(notification);
+            });
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `custom-notification fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg transform transition-all duration-300 ${
+                type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' : 
+                type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' :
+                'bg-blue-50 text-blue-800 border border-blue-200'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <i class="fas ${
+                        type === 'error' ? 'fa-exclamation-circle text-red-500' : 
+                        type === 'success' ? 'fa-check-circle text-green-500' :
+                        'fa-info-circle text-blue-500'
+                    }"></i>
+                    <span class="font-medium">${message}</span>
+                    <button class="ml-4 text-gray-400 hover:text-gray-600" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (notification.parentElement) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }
+            }, 4000);
+        }
+
+        // Add contains polyfill for older browsers
+        if (!String.prototype.includes) {
+            String.prototype.includes = function(search, start) {
+                if (typeof start !== 'number') {
+                    start = 0;
+                }
+                if (start + search.length > this.length) {
+                    return false;
+                }
+                return this.indexOf(search, start) !== -1;
+            };
+        }
+    </script>
+  </body>
+</html>
