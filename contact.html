@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Product Gallery - Hover Pan Zoom</title>
+
+    <link href="./output.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Owl Carousel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <style>
+    .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.4); }
+    .focus-ring:focus-visible { outline: none; box-shadow: 0 0 0 4px rgba(236,72,153,0.3); }
+    .fashion-gradient { background: linear-gradient(135deg, #ec4899 0%, #a855f7 100%); }
+    .fashion-gradient-light { background: linear-gradient(135deg, #fdf2f8 0%, #faf5ff 100%); }
+    .fashion-gradient-dark { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); }
+  </style>
+  </head>
+  <body class="bg-gray-50 relative">
+    <!-- Top Offer Bar -->
+
+    <!-- Main Header -->
+    <header
+      id="nav-wrapper"
+      class="bg-white shadow-sm sticky top-0 lg:z-[20004] z-[20000] px-3"
+    >
+      <!-- Top Bar: Special Offer + Product Title (hidden on small screens for product title) -->
+      <div class="text-sm text-gray-600 px-6 py-2 border-b">
+        <div
+          class="container mx-auto flex smx:flex-nowrap flex-wrap smx:justify-between justify-center items-center"
+        >
+          <p>
+            Special offer get <span class="font-semibold">25% off</span>
+            <a href="#" class="underline ml-1">T&amp;C</a>
+          </p>
+          <p
+            class="hidden md:inline-block text-2xl font-semibold tracking-wide"
+          >
+            Aiman
+          </p>
+          <p class="text-gray-700">Womens Denim Jacket (Blue)</p>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div
+        class="py-4 flex items-center justify-between gap-6 container mx-auto"
+      >
+        <!-- Left: Logo + Desktop Nav -->
+        <div class="lgg:flex hidden items-center gap-8 flex-1">
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <nav
+            class="hidden lgg:flex items-center gap-6 text-gray-700 font-medium"
+          >
+            <a href="#" class="hover:text-black">Salwar Kameez</a>
+            <a href="#" class="hover:text-black">Lehengas</a>
+            <a href="#" class="hover:text-black">Bridal</a>
+            <a href="#" class="hover:text-black">Wedding</a>
+          </nav>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="lgg:hidden text-gray-700 hover:text-black"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-4">
+          <!-- Search (visible on sm and up) -->
+          <div class="relative hidden sm:block">
+            <input
+              type="text"
+              placeholder="Search here"
+              class="pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none w-56"
+            />
+            <i
+              class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+            ></i>
+          </div>
+
+          <!-- Mobile Search Icon -->
+          <button class="sm:hidden text-gray-700 hover:text-black">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+          </button>
+
+          <!-- Icons -->
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </button>
+
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+          </button>
+
+          <!-- Profile with Dropdown -->
+          <div class="relative">
+            <button
+              id="profile-btn"
+              class="flex items-center gap-2 text-gray-700 hover:text-black"
+            >
+              <img
+                src="https://i.pravatar.cc/32"
+                alt="User"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <span class="hidden sm:block text-sm">Anne Doe</span>
+              <i class="fa-solid fa-chevron-down text-xs hidden sm:block"></i>
+            </button>
+
+            <!-- Account Dropdown -->
+            <div
+              id="account-dropdown"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >My Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Orders</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Wishlist</a
+              >
+              <hr class="my-1" />
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div
+      id="mobile-sidebar"
+      class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-[20005] lg:hidden"
+    >
+      <div class="flex items-center justify-between p-6 border-b">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          <span class="text-xl font-semibold">Aiman</span>
+        </div>
+        <button id="close-sidebar-btn" class="text-gray-700 hover:text-black">
+          <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Search -->
+      <div class="p-6 border-b">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search here"
+            class="w-full pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none"
+          />
+          <i
+            class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <nav class="p-6">
+        <ul class="space-y-4 text-gray-700 font-medium">
+          <li><a href="#" class="block hover:text-black">Salwar Kameez</a></li>
+          <li><a href="#" class="block hover:text-black">Lehengas</a></li>
+          <li><a href="#" class="block hover:text-black">Bridal</a></li>
+          <li><a href="#" class="block hover:text-black">Wedding</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-[20004] lg:hidden"
+    ></div>
+
+    <section class="px-4 lg:pb-12 pb-6 lg:pt-6 pt-4">
+      <div class="container mx-auto">
+        <div
+          class="grid grid-cols-1 lgg:grid-cols-2 rounded-3xl overflow-hidden bg-white shadow-lg"
+        >
+          <!-- LEFT FORM -->
+          <div class="p-6 md:p-10">
+            <h2 class="text-h2-xs sm:text-h2-sm md:text-h2-md lg:text-h2-lg lgg:text-h2-lgg xl:text-h2-xl 2xl:text-h2-2xl font-semibold mb-2">
+              Get in <span class="text-secondary ">touch</span>
+            </h2>
+            <p class="text-gray-500 text-p-xs sm:text-p-sm md:text-p-md lg:text-p-lg lgg:text-p-lgg xl:text-p-xl  mb-6">
+              Enim tempor eget pharetra facilisis sed maecenas adipiscing. Eu
+              leo molestie vel, ornare non id blandit netus.
+            </p>
+
+            <form class="space-y-4">
+              <input
+                type="text"
+                placeholder="Contact name"
+                class="w-full border-b border-gray-300 focus:outline-none py-2"
+              />
+
+              <input
+                type="text"
+                placeholder="Street"
+                class="w-full border-b border-gray-300 focus:outline-none py-2"
+              />
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder="City"
+                  class="w-full border-b border-gray-300 focus:outline-none py-2"
+                />
+                <input
+                  type="text"
+                  placeholder="Postcode"
+                  class="w-full border-b border-gray-300 focus:outline-none py-2"
+                />
+              </div>
+
+              <input
+                type="text"
+                placeholder="Contact Phone"
+                class="w-full border-b border-gray-300 focus:outline-none py-2"
+              />
+
+              <input
+                type="email"
+                placeholder="E-mail"
+                class="w-full border-b border-gray-300 focus:outline-none py-2"
+              />
+
+              <textarea
+                placeholder="Let’s talk about your idea"
+                rows="3"
+                class="w-full border-b border-gray-300 focus:outline-none py-2 resize-none"
+              ></textarea>
+
+              <!-- Upload -->
+              <div
+                class="border border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-400 text-sm"
+              >
+                Upload Additional file
+                <p class="text-xs mt-2">
+                  Attach file. File size of your documents should not exceed
+                  10MB
+                </p>
+              </div>
+
+              <!-- Checkbox -->
+              <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input type="checkbox" class="accent-blue-600" />
+                I want to protect my data by signing an NDA
+              </label>
+
+              <!-- Button -->
+              <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+              >
+                SUBMIT
+              </button>
+            </form>
+
+            <!-- Footer Info -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-sm text-gray-600"
+            >
+              <div>
+                <p class="font-medium">Phone</p>
+                <p class="text-red-500">111 111 111</p>
+              </div>
+              <div>
+                <p class="font-medium">E-mail</p>
+                <p class="text-red-500">info@company.com</p>
+              </div>
+              <div>
+                <p class="font-medium">Helpdesk</p>
+                <p class="text-red-500">https://helpdesk.com</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT MAP -->
+          <div class="relative lgg:py-14 lgg:pr-14 lgg:pl-0 py-4 pr-4 pl-4">
+            <div class="absolute w-1/2 h-full right-0 top-0 bg-secondary/50"></div>
+            <iframe
+              class="relative w-full h-full min-h-[300px] rounded-[10px]"
+              src="https://www.google.com/maps?q=Prague&output=embed"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 lg:pb-12 pb-6 lg:pt-6 pt-4">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-h2-xs sm:text-h2-sm md:text-h2-md lg:text-h2-lg lgg:text-h2-lgg xl:text-h2-xl 2xl:text-h2-2xl font-bold mb-6">
+              Fashion Care & Sustainability
+            </h2>
+            <p class="text-p-xs sm:text-p-sm md:text-p-md lg:text-p-lg lgg:text-p-lgg xl:text-p-xl text-gray-700 mb-6">
+              We're committed to sustainable fashion and helping you care for
+              your clothes to extend their lifespan.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4">
+                <svg
+                  class="w-6 h-6 text-fashion-teal mt-1 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <div>
+                  <h4 class="font-bold">Care Instructions</h4>
+                  <p class="text-gray-600">
+                    Need specific care instructions for your garment?
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <svg
+                  class="w-6 h-6 text-fashion-teal mt-1 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <div>
+                  <h4 class="font-bold">Repair Services</h4>
+                  <p class="text-gray-600">
+                    Information about our repair and alteration services
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <svg
+                  class="w-6 h-6 text-fashion-teal mt-1 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <div>
+                  <h4 class="font-bold">Recycling Program</h4>
+                  <p class="text-gray-600">
+                    Learn about our clothing recycling initiative
+                  </p>
+                </div>
+              </div>
+            </div>
+            <a
+              href="#contact-form"
+              class="mt-8 inline-block px-8 py-4 bg-fashion-teal text-white font-bold rounded-xl hover:bg-teal-600 transition"
+              >Ask About Care & Recycling</a
+            >
+          </div>
+          <div
+            class="bg-gradient-to-br from-teal-50 to-blue-50 p-8 rounded-2xl"
+          >
+            <h3 class="text-h4-xs sm:text-h4-sm md:text-h4-md lg:text-h4-lg lgg:text-h4-lgg  font-bold mb-4">
+              Our Sustainability Commitment
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-fashion-teal"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-bold">Ethical Sourcing</h4>
+                  <p class="text-sm text-gray-600">
+                    All our partners meet strict ethical standards
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-fashion-teal"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-bold">Quality Materials</h4>
+                  <p class="text-sm text-gray-600">
+                    Prioritizing sustainable and durable fabrics
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-fashion-teal"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-bold">Carbon Neutral</h4>
+                  <p class="text-sm text-gray-600">
+                    Offsetting 100% of our shipping emissions
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-4 lg:pb-12 pb-6 lg:pt-6 pt-4 bg-secondary-light">
+      <div class="container mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-h2-xs sm:text-h2-sm md:text-h2-md lg:text-h2-lg lgg:text-h2-lgg xl:text-h2-xl 2xl:text-h2-2xl font-bold mb-4">Size & Fit Assistance</h2>
+          <p class="text-p-xs sm:text-p-sm md:text-p-md lg:text-p-lg lgg:text-p-lgg xl:text-p-xl text-gray-700 max-w-2xl mx-auto">
+            Not sure about your size? Our fashion experts can help you find the
+            perfect fit.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-5 bg-pink-100 rounded-2xl flex items-center justify-center"
+            >
+              <svg
+                class="w-10 h-10 text-fashion-pink"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-4">Size Guide</h3>
+            <p class="text-gray-600 mb-4">
+              Comprehensive sizing charts for all brands we carry
+            </p>
+            <a href="#" class="text-secondary hover:text-secondary/45 transition-all duration-300 ease-in-out font-medium underline"
+              >View Size Charts</a
+            >
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-5 bg-teal-100 rounded-2xl flex items-center justify-center"
+            >
+              <svg
+                class="w-10 h-10 text-fashion-teal"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-4">Fit Guarantee</h3>
+            <p class="text-gray-600 mb-4">
+              Free exchanges if your item doesn't fit perfectly
+            </p>
+            <a href="#" class="text-secondary hover:text-secondary/45 transition-all duration-300 ease-in-out font-medium underline"
+              >Learn More</a
+            >
+          </div>
+          <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+            <div
+              class="w-16 h-16 mx-auto mb-5 bg-purple-100 rounded-2xl flex items-center justify-center"
+            >
+              <svg
+                class="w-10 h-10 text-fashion-purple"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L4 20V6a2 2 0 012-2h10a2 2 0 012 2v6a2 2 0 01-2 2H9l-1.414-1.414z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-4">Virtual Fitting</h3>
+            <p class="text-gray-600 mb-4">
+              Schedule a video call with our stylists
+            </p>
+            <a
+              href="#contact-form"
+              class="text-secondary hover:text-secondary/45 transition-all duration-300 ease-in-out font-medium underline"
+              >Book Appointment</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="px-4 lg:pb-12 pb-5 lg:pt-6 pt-4">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="p-8">
+            <h2 class="text-h2-xs sm:text-h2-sm md:text-h2-md lg:text-h2-lg lgg:text-h2-lgg xl:text-h2-xl 2xl:text-h2-2xl font-bold mb-6">
+              Free Personal Styling Consultation
+            </h2>
+            <p class="text-p-xs sm:text-p-sm md:text-p-md lg:text-p-lg lgg:text-p-lgg xl:text-p-xl text-gray-700 mb-6">
+              Our fashion experts can help you find the perfect pieces for your
+              style, body type, and occasion.
+            </p>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-center gap-3">
+                <svg
+                  class="w-6 h-6 text-fashion-pink"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Personalized outfit recommendations</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <svg
+                  class="w-6 h-6 text-fashion-pink"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Size & fit guidance</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <svg
+                  class="w-6 h-6 text-fashion-pink"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                <span>Seasonal trend advice</span>
+              </li>
+            </ul>
+            <a
+              href="#contact-form"
+              class="px-8 py-4 fashion-gradient text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition inline-block"
+              >Book a Style Session</a
+            >
+          </div>
+          <div class=" p-8 rounded-2xl shadow-lg bg-secondary-light">
+            <h3 class="text-h4-xs sm:text-h4-sm md:text-h4-md lg:text-h4-lg lgg:text-h4-lgg  font-bold mb-4">Our Style Experts</h3>
+            <div class="space-y-6">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-16 h-16 rounded-full bg-gradient-to-r from-pink-200 to-purple-200 flex items-center justify-center text-fashion-pink font-bold"
+                >
+                  AJ
+                </div>
+                <div>
+                  <h4 class="font-bold">Alex Jordan</h4>
+                  <p class="text-sm text-gray-600">
+                    Senior Stylist, 8+ years experience
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-16 h-16 rounded-full bg-gradient-to-r from-teal-200 to-blue-200 flex items-center justify-center text-fashion-teal font-bold"
+                >
+                  MS
+                </div>
+                <div>
+                  <h4 class="font-bold">Maya Santos</h4>
+                  <p class="text-sm text-gray-600">Men's Fashion Specialist</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-16 h-16 rounded-full bg-gradient-to-r from-amber-200 to-orange-200 flex items-center justify-center text-fashion-gold font-bold"
+                >
+                  TK
+                </div>
+                <div>
+                  <h4 class="font-bold">Taylor Kim</h4>
+                  <p class="text-sm text-gray-600">
+                    Accessories & Occasion Wear
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-[#FBEDEC]">
+      <div class="container mx-auto">
+        <div class="border-b border-[#E8C8C8]">
+          <div
+            class="px-4 py-12 flex flex-col lg:flex-row gap-10 lg:items-stretch justify-center"
+          >
+            <!-- Newsletter -->
+            <div class="flex-1">
+              <h2 class="text-xl md:text-2xl font-medium text-gray-800 mb-4">
+                Subscribe to our newsletter and get
+                <br class="hidden lg:block" />
+                updates on new arrival
+              </h2>
+
+              <form action="" class="lg:max-w-md">
+                <div
+                  class="flex bg-[#FBEDEC] border xxs:py-1 xxs:px-1 py-2 px-4 border-[#D26A6A] xxs:rounded-full rounded-xl overflow-hidden xxs:flex-row flex-col justify-between"
+                >
+                  <input
+                    type="text"
+                    class="w-full px-4 py-2 bg-transparent outline-none xxs:mb-0 mb-2"
+                    placeholder="Enter your email"
+                  />
+                  <button
+                    class="px-4 py-2 bg-[#D29A1E] xxs:rounded-full rounded-md text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Divider -->
+            <div
+              class="hidden lg:block w-[2px] bg-[#E8C8C8] rounded-full self-stretch"
+            ></div>
+            <div class="lg:hidden h-[2px] bg-[#E8C8C8] w-full"></div>
+
+            <!-- Instagram -->
+            <div class="flex-1 flex items-center justify-center lg:justify-end">
+              <div class="w-fit text-center lg:text-left">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">
+                  Follow us on Instagram
+                </h3>
+
+                <div
+                  class="flex flex-wrap lg:flex-nowrap gap-3 justify-center lg:justify-start max-w-sm"
+                >
+                  <img
+                    src="./assets/images/Home-image/pic-17.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-18.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-19.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-20.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="px-4 py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10"
+        >
+          <!-- Brand -->
+          <div class="md:col-span-1">
+            <h2 class="text-2xl font-bold text-[#8B1E2D]">Aiman</h2>
+            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+              We are a fashion brand that offers the best of contemporary,
+              ethnic Indian fashion, and fusion-wear styles.
+            </p>
+          </div>
+
+          <!-- Quick Link -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Quick Link</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Men</li>
+              <li>Women</li>
+              <li>Collection</li>
+              <li>Couples</li>
+              <li>Kids</li>
+            </ul>
+          </div>
+
+          <!-- Vastram -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Vastram</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>About Us</li>
+              <li>Contact us</li>
+              <li>Blog</li>
+              <li>Press</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+
+          <!-- Policies -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Policies</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Terms & Conditions</li>
+              <li>Shipping</li>
+              <li>Return</li>
+              <li>Payment Policy</li>
+            </ul>
+          </div>
+
+          <!-- Account -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">My Account</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Login</li>
+              <li>Shopping Bag</li>
+              <li>Wishlist</li>
+              <li>Order Tracking</li>
+              <li>Order History</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- <script src="./assets/js/multi-product.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Product Gallery - Hover Pan Zoom</title>
+
+    <link href="./output.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Owl Carousel CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+
+ 
+  </head>
+  <body class="bg-gray-50 relative">
+    <!-- Top Offer Bar -->
+
+    <!-- Main Header -->
+    <header
+      id="nav-wrapper"
+      class="bg-white shadow-sm sticky top-0 lg:z-[20004] z-[20000] px-3"
+    >
+      <!-- Top Bar: Special Offer + Product Title (hidden on small screens for product title) -->
+      <div class="text-sm text-gray-600 px-6 py-2 border-b">
+        <div
+          class="container mx-auto flex smx:flex-nowrap flex-wrap smx:justify-between justify-center items-center"
+        >
+          <p>
+            Special offer get <span class="font-semibold">25% off</span>
+            <a href="#" class="underline ml-1">T&amp;C</a>
+          </p>
+          <p
+            class="hidden md:inline-block text-2xl font-semibold tracking-wide"
+          >
+            Aiman
+          </p>
+          <p class="text-gray-700">Womens Denim Jacket (Blue)</p>
+        </div>
+      </div>
+
+      <!-- Main Header -->
+      <div
+        class="py-4 flex items-center justify-between gap-6 container mx-auto"
+      >
+        <!-- Left: Logo + Desktop Nav -->
+        <div class="lgg:flex hidden items-center gap-8 flex-1">
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <nav
+            class="hidden lgg:flex items-center gap-6 text-gray-700 font-medium"
+          >
+            <a href="#" class="hover:text-black">Salwar Kameez</a>
+            <a href="#" class="hover:text-black">Lehengas</a>
+            <a href="#" class="hover:text-black">Bridal</a>
+            <a href="#" class="hover:text-black">Wedding</a>
+          </nav>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          class="lgg:hidden text-gray-700 hover:text-black"
+        >
+          <i class="fa-solid fa-bars text-2xl"></i>
+        </button>
+
+        <!-- Right Section -->
+        <div class="flex items-center gap-4">
+          <!-- Search (visible on sm and up) -->
+          <div class="relative hidden sm:block">
+            <input
+              type="text"
+              placeholder="Search here"
+              class="pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none w-56"
+            />
+            <i
+              class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+            ></i>
+          </div>
+
+          <!-- Mobile Search Icon -->
+          <button class="sm:hidden text-gray-700 hover:text-black">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+          </button>
+
+          <!-- Icons -->
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-regular fa-heart text-lg"></i>
+          </button>
+
+          <button class="text-gray-700 hover:text-black">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+          </button>
+
+          <!-- Profile with Dropdown -->
+          <div class="relative">
+            <button
+              id="profile-btn"
+              class="flex items-center gap-2 text-gray-700 hover:text-black"
+            >
+              <img
+                src="https://i.pravatar.cc/32"
+                alt="User"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              <span class="hidden sm:block text-sm">Anne Doe</span>
+              <i class="fa-solid fa-chevron-down text-xs hidden sm:block"></i>
+            </button>
+
+            <!-- Account Dropdown -->
+            <div
+              id="account-dropdown"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 hidden z-50"
+            >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >My Profile</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Orders</a
+              >
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Wishlist</a
+              >
+              <hr class="my-1" />
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >Logout</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div
+      id="mobile-sidebar"
+      class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 ease-in-out z-[20005] lg:hidden"
+    >
+      <div class="flex items-center justify-between p-6 border-b">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-blue-700 rounded-sm"></div>
+          <span class="text-xl font-semibold">Aiman</span>
+        </div>
+        <button id="close-sidebar-btn" class="text-gray-700 hover:text-black">
+          <i class="fa-solid fa-xmark text-2xl"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Search -->
+      <div class="p-6 border-b">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search here"
+            class="w-full pl-4 pr-10 py-2 rounded-full bg-gray-100 text-sm outline-none"
+          />
+          <i
+            class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <nav class="p-6">
+        <ul class="space-y-4 text-gray-700 font-medium">
+          <li><a href="#" class="block hover:text-black">Salwar Kameez</a></li>
+          <li><a href="#" class="block hover:text-black">Lehengas</a></li>
+          <li><a href="#" class="block hover:text-black">Bridal</a></li>
+          <li><a href="#" class="block hover:text-black">Wedding</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div
+      id="sidebar-overlay"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-[20004] lg:hidden"
+    ></div>
+
+   <section class="px-4 lg:pb-12 pb-6 lg:pt-6 pt-4">
+  <div class="container mx-auto">
+    <!-- Progress Bar and Banner -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+      <div class="flex items-center mb-4">
+        <div class="flex-1 bg-gray-200 rounded-full h-4 relative">
+          <div class="bg-black h-4 rounded-full w-1/5"></div>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600">
+        Spend $400 more and get free shipping!
+      </p>
+    </div>
+
+    <div class="flex flex-col lgg:flex-row gap-8">
+      <!-- Cart Items - Now using a table -->
+      <div class="flex-1 bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th class="px-6 py-4">Product</th>
+                <th class="px-6 py-4 text-center">Price</th>
+                <th class="px-6 py-4 text-center">Quantity</th>
+                <th class="px-6 py-4 text-center">Subtotal</th>
+                <th class="px-6 py-4 text-center"></th> <!-- Remove -->
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Cart Item Row -->
+              <tr class="border-b border-gray-200 hover:bg-gray-50">
+                <td class="px-6 py-6">
+                  <div class="flex items-center gap-4">
+                    <div class="w-24 h-32 bg-gray-200 border-2 border-dashed rounded-lg flex-shrink-0 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
+                      <img class="object-cover object-top object-center w-full h-full" src="./assets/images/Home-image/pic-12.avif" alt="">
+                    </div>
+                    <div>
+                      <h3 class="font-medium text-gray-900">
+                        Slouch Waist Crinkled Dress
+                      </h3>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-6 py-6 text-center">
+                  $100.00
+                </td>
+
+                <td class="px-6 py-6 text-center">
+                  <div class="flex items-center justify-center border border-gray-300 rounded-md inline-flex">
+                    <button class="px-3 py-1 hover:bg-gray-100">-</button>
+                    <input type="text" value="1" class="w-12 text-center border-x border-gray-300 py-1" />
+                    <button class="px-3 py-1 hover:bg-gray-100">+</button>
+                  </div>
+                </td>
+
+                <td class="px-6 py-6 text-center font-medium">
+                  $100.00
+                </td>
+
+                <td class="px-6 py-6 text-center">
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Add more <tr> rows here for additional items -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Coupon Section -->
+        <div class="mt-3 flex flex-wrap gap-4 px-6 py-6">
+          <input type="text" placeholder="Coupon code" class="flex-1 w-full smx:min-w-[300px] px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black" />
+         <div class="flex gap-4 smx:w-fit w-full smx:flex-row flex-col lgg:justify-start justify-end">
+           <button class="px-6 py-3 smx:w-fit w-full bg-black text-white lgg:text-[1rem] text-[0.875rem] rounded-md hover:bg-gray-800">
+            Apply coupon
+          </button>
+          <button class="px-6 py-3 smx:w-fit w-full border border-gray-300 lgg:text-[1rem] text-[0.875rem] rounded-md hover:bg-gray-100">
+            Continue shopping
+          </button>
+
+         </div>
+        </div>
+      </div>
+
+      <!-- Cart Totals Sidebar -->
+      <div class="lg:w-80">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <h2 class="text-lg font-medium text-gray-900 mb-6">Cart Totals</h2>
+
+          <div class="space-y-4">
+            <div class="flex justify-between text-gray-700">
+              <span>Subtotal</span>
+              <span>$100.00</span>
+            </div>
+
+            <div class="flex justify-between text-gray-700">
+              <span>Shipping</span>
+              <div class="text-right">
+                <span class="block text-sm">Shipping to India.</span>
+                <a href="#" class="text-sm text-blue-600 hover:underline">Change address</a>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-4">
+              <div class="flex justify-between text-lg font-medium text-gray-900">
+                <span>Total</span>
+                <span>$100.00</span>
+              </div>
+            </div>
+
+            <button class="px-6 py-3 w-full bg-black text-white lgg:text-[1rem] text-[0.875rem] rounded-md hover:bg-gray-800">
+              Proceed to checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <footer class="bg-[#FBEDEC]">
+      <div class="container mx-auto">
+        <div class="border-b border-[#E8C8C8]">
+          <div
+            class="px-4 py-12 flex flex-col lg:flex-row gap-10 lg:items-stretch justify-center"
+          >
+            <!-- Newsletter -->
+            <div class="flex-1">
+              <h2 class="text-xl md:text-2xl font-medium text-gray-800 mb-4">
+                Subscribe to our newsletter and get
+                <br class="hidden lg:block" />
+                updates on new arrival
+              </h2>
+
+              <form action="" class="lg:max-w-md">
+                <div
+                  class="flex bg-[#FBEDEC] border xxs:py-1 xxs:px-1 py-2 px-4 border-[#D26A6A] xxs:rounded-full rounded-xl overflow-hidden xxs:flex-row flex-col justify-between"
+                >
+                  <input
+                    type="text"
+                    class="w-full px-4 py-2 bg-transparent outline-none xxs:mb-0 mb-2"
+                    placeholder="Enter your email"
+                  />
+                  <button
+                    class="px-4 py-2 bg-[#D29A1E] xxs:rounded-full rounded-md text-white"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Divider -->
+            <div
+              class="hidden lg:block w-[2px] bg-[#E8C8C8] rounded-full self-stretch"
+            ></div>
+            <div class="lg:hidden h-[2px] bg-[#E8C8C8] w-full"></div>
+
+            <!-- Instagram -->
+            <div class="flex-1 flex items-center justify-center lg:justify-end">
+              <div class="w-fit text-center lg:text-left">
+                <h3 class="text-lg font-medium text-gray-800 mb-4">
+                  Follow us on Instagram
+                </h3>
+
+                <div
+                  class="flex flex-wrap lg:flex-nowrap gap-3 justify-center lg:justify-start max-w-sm"
+                >
+                  <img
+                    src="./assets/images/Home-image/pic-17.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-18.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-19.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                  <img
+                    src="./assets/images/Home-image/pic-20.avif"
+                    class="w-20 h-20 md:w-16 md:h-16 lg:w-[87px] lg:h-[87px] rounded-md object-cover object-center object-top"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="px-4 py-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10"
+        >
+          <!-- Brand -->
+          <div class="md:col-span-1">
+            <h2 class="text-2xl font-bold text-[#8B1E2D]">Aiman</h2>
+            <p class="text-sm text-gray-600 mt-3 leading-relaxed">
+              We are a fashion brand that offers the best of contemporary,
+              ethnic Indian fashion, and fusion-wear styles.
+            </p>
+          </div>
+
+          <!-- Quick Link -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Quick Link</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Men</li>
+              <li>Women</li>
+              <li>Collection</li>
+              <li>Couples</li>
+              <li>Kids</li>
+            </ul>
+          </div>
+
+          <!-- Vastram -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Vastram</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>About Us</li>
+              <li>Contact us</li>
+              <li>Blog</li>
+              <li>Press</li>
+              <li>Careers</li>
+            </ul>
+          </div>
+
+          <!-- Policies -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">Policies</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Terms & Conditions</li>
+              <li>Shipping</li>
+              <li>Return</li>
+              <li>Payment Policy</li>
+            </ul>
+          </div>
+
+          <!-- Account -->
+          <div>
+            <h4 class="font-medium text-gray-800 mb-3">My Account</h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+              <li>Login</li>
+              <li>Shopping Bag</li>
+              <li>Wishlist</li>
+              <li>Order Tracking</li>
+              <li>Order History</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- <script src="./assets/js/multi-product.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+  </body>
+</html>
